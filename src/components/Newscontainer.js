@@ -1,49 +1,22 @@
+import moment from 'moment'
 import React from 'react'
 
-function Newscontainer() {
+function Newscontainer({ key, title, url, points, author, time, comments }) {
     return (
         <div className='news-container'>
-            <div className='news-wrapper'>
+            <div className='news-wrapper' key={key}>
                 <div className='news-title'>
-                    <a href="#">Finding CSV files that start with a BOM using ripgrep</a>
-                    <a className='news-title-url' href="#">(simonwillison.net)</a>
+                    <a href={title}>{title}</a>
+                    <a className='news-title-url' href={url}>{url}</a>
                 </div>
                 <div className='news-info'>
-                    <span className='points'>41 points</span>
-                    <span className='author'>by pcr910303</span>
-                    <span className='time'> 2 hours ago |</span>
+                    <span className='points'>{points} points</span>
+                    <span className='author'>by {author}</span>
+                    <span className='time'> {moment(time).fromNow()} |</span>
                     <span> hide |</span>
-                    <span className='comments'> 11 comments</span>
+                    <span className='comments'> {comments} comments</span>
                 </div>
-            </div>
-            <div className='news-wrapper'>
-                <div className='news-title'>
-                    <a href="#">Finding CSV files that start with a BOM using ripgrep</a>
-                    <a className='news-title-url' href="#">(simonwillison.net)</a>
-                </div>
-                <div className='news-info'>
-                    <span className='points'>41 points</span>
-                    <span className='author'>by pcr910303</span>
-                    <span className='time'> 2 hours ago |</span>
-                    <span> hide |</span>
-                    <span className='comments'> 11 comments</span>
-                </div>
-            </div>
-            <div className='news-wrapper'>
-                <div className='news-title'>
-                    <a href="#">Finding CSV files that start with a BOM using ripgrep</a>
-                    <a className='news-title-url' href="#">(simonwillison.net)</a>
-                </div>
-                <div className='news-info'>
-                    <span className='points'>41 points</span>
-                    <span className='author'>by pcr910303</span>
-                    <span className='time'> 2 hours ago |</span>
-                    <span> hide |</span>
-                    <span className='comments'> 11 comments</span>
-                </div>
-            </div>
-
-
+            </div>           
         </div>
     )
 }

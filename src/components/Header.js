@@ -1,34 +1,25 @@
 import React from 'react'
 
 function Header() {
-   
+
     return (
 
-    <div>
-    <tr>
-    <td>
-    <a href="index.html">
-    <img src="./hacker-news-logo.png">
-    </img>
-    </a>
-    </td>
-    </tr>
-    <td>
-        <a href="index.html"></a>
-        <span>
-            <a>new</a>
-            <a>past</a>
-            <a>comments</a>
-            <a>ask</a>
-            <a>show</a>
-            <a>jobs</a>
-            <a>submit</a>
-        </span>
-    </td>
-    <td>
-        <span>login</span>
-    </td>
-    </div> 
+        <div className='header-container'>
+        <div className='left-header'>
+        <a href=""><img src="" alt="" /></a>
+          <span>new</span>
+          <span>past</span>
+          <span>comment</span>
+          <span>ask</span>
+          <span>show</span>
+          <span>job</span>
+          <span>submit</span>
+        </div>
+        <div className='right-header'>
+            <span>login</span>
+        </div>
+ 
+        </div>
 
     )
 }

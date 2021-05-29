@@ -1,3 +1,8 @@
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -5,9 +10,72 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background: #f6f6ef;
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+.header-container{
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: 20px;
+  background: #ff6600;
+}
+.left-header span{
+  padding: 0 10px;
+}
+.right-header{
+  padding: 0 10px;
+}
+.footer-container{
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  margin: 0 auto;
+  background: #f6f6ef;
+  border-top: 3px solid #ff6600;
+}
+.footer-container *{
+  padding: 0 10px;
+}
+.footer-links, .footer-search{
+  text-align: center;
+  padding: 6px;
+}
+.footer-search input{
+  font-size: 18px;
+  outline: none;
+}
+.footer-links a{
+  text-decoration: none;
+  color: #828282;
+}
+.news-container{
+  background: #f6f6ef;
+}
+.news-title a{
+  text-decoration: none;
+  padding: 0 10px;
+  color: #333;
+}
+.news-title-url a{
+  color: #828282;
+}
+.news-title-url:hover{
+  text-decoration: underline;
+}
+.news-info{
+  color: rgb(117, 115, 115);
+  padding: 4px 10px;
+}
+.news-wrapper{
+  padding: 10px 0;
+}
+.comments:hover, .author:hover, .time:hover, .hide:hover{
+  text-decoration: underline;
+  cursor: pointer;
 }

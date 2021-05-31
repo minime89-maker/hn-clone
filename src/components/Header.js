@@ -1,12 +1,16 @@
 import React from 'react'
+import Logo from './Logo.gif'
 
 function Header() {
 
     return (
 
         <div className='header-container'>
+                <a className='logo' href=""><img src={Logo} /></a>
         <div className='left-header'>
-        <a href=""><img src="" alt="" /></a>
+        <span>
+            <a className='header-title' href="#">Hacker News</a>
+        </span>
           <span>new</span>
           <span>past</span>
           <span>comment</span>

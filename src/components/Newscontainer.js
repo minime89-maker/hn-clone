@@ -6,8 +6,10 @@ function Newscontainer({ key, title, url, points, author, time, comments }) {
         <div className='news-container'>
             <div className='news-wrapper' key={key}>
                 <div className='news-title'>
-                    <a href={title}>{title}</a>
-                    <a className='news-title-url' href={url}>{url}</a>
+                    <a href={title}>{title}</a>s
+                    <span>
+                        <a className='news-title-url' href={url}>{url}</a>
+                    </span>
                 </div>
                 <div className='news-info'>
                     <span className='points'>{points} points</span>

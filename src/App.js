@@ -20,7 +20,7 @@ transform: translate (50%, -50%);
 function App() {
 
   const [news, setNews] = useState()
-  const [isLoading, setLoading] = useState(false)
+  const [isLoading, setLoading] = useState(true)
   const [search, setSearch] = useState('')
 
 
@@ -51,25 +51,28 @@ axios({
     }
 
     useEffect(() => {
-      setLoading(true)
-      axios
-      .get(`http://hn.algolia.com/api/v1/search_by_date?query=${search ? search : alert('UPSSSSSSSSSSSSSSSSSSS')}&tags=story&hitsPerPage=10`)
-      .then((res) => {
-        console.log(res.data.hits)
+      const refresh = setInterval(() => {
         setLoading(false)
-        setNews(res.data.hits)
-      })
-      .catch((err) => {
-       console.log(`Upss ... ${err}`)
-       alert('Upsss I did again')
-       setLoading(true)
-      })
+        axios
+        .get(`http://hn.algolia.com/api/v1/search_by_date?query=${search}&tags=story&hitsPerPage=10`)
+        .then((res) => {
+          console.log(res.data.hits)
+          setLoading(false)
+          setNews(res.data.hits)
+        })
+        .catch((err) => {
+         console.log(`Upss ... ${err}`)
+         alert('Upsss I did again')
+         setLoading(true)
+        })
+      }, 50000);
+      return () => clearInterval(refresh);
     }, [search])
 
     
     
   return (
-    <div className="App">
+    <>
       <PacmanLoader css={emo} size={100} color={'#ff6600'} speedMultiplier={1} loading={isLoading} />
      <Header />
      {news && news.map((story) => {
@@ -78,7 +81,9 @@ axios({
             <div className='news-wrapper' >
                 <div className='news-title'>
                     <a href={story.url}>{story.title}</a>
-                    <a className='news-title-url' rel='noreferrer noopener' target='_blank' href={story.url}>{story.url}</a>
+                    <span className='news-title-url'>
+                      <a  rel='noreferrer noopener' target='_blank' href={story.url}>({story.url})</a>
+                    </span>
                 </div>
                 <div className='news-info'>
                     <span className='points'>{story.points} </span>
@@ -96,7 +101,7 @@ axios({
        )
      })}
       <Footer onChange={(e) => setSearch(e.target.value)} onSubmit={handleSubmit} /> 
-    </div>
+    </>
   );
 }
 

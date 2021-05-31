@@ -82,6 +82,13 @@ body{
 .news-wrapper{
   padding: 10px 0;
 }
+.comment-item{
+  padding: 10px 0;
+}
+.comments-button:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}
 .comments:hover, .author:hover, .time:hover, .hide:hover{
   text-decoration: underline;
   cursor: pointer;

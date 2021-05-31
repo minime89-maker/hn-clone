@@ -6,6 +6,7 @@ import PacmanLoader from 'react-spinners/PacmanLoader';
 import {css} from '@emotion/react'
 import { useEffect, useState } from 'react';
 import moment from 'moment'
+import Comments from './components/Comments.js';
 
 
 const emo = css`
@@ -22,6 +23,8 @@ function App() {
   const [news, setNews] = useState()
   const [isLoading, setLoading] = useState(true)
   const [search, setSearch] = useState('')
+  const [commentsView, setCommentsView] = useState(false)
+  const [activeArticle, setArticle] = useState()
 
 
 /* const searchTopic= (topic) => {
@@ -42,6 +45,30 @@ axios({
     .then(function (response) {
       console.log(response)
     }); */
+
+    const handleSetArticle = (story) => {
+      console.log('selected story:' + story + '\claling API to get data')
+      
+      const storyID = story.objectID
+      //https://hn.algolia.com/api/v1/items/${storyID}
+      console.log('article selected='+storyID+'\ngetting data')
+      axios
+      .get(`https://hn.algolia.com/api/v1/items/${storyID}`)
+      .then((res) => {
+        console.log('res=' + JSON.stringify(res))
+        console.log('res data='+JSON.stringify(res.data))
+        console.log('res data hits='+JSON.stringify(res.data.hits))
+        setArticle(res.data)
+        setCommentsView(true)
+      })
+      .catch((err) => {
+       console.log(`Error! ${err}`)
+       alert('Error executing comments getter request!')
+       setCommentsView(false)
+       setArticle()
+      })
+
+    }
 
     const handleSubmit = (e) => {
       e.preventDefault()
@@ -71,8 +98,22 @@ axios({
       return () => clearInterval(refresh);
     }, [search])
 
+
+    console.log('commentsView status ='+commentsView)
+    console.log('activeArticle = ' + JSON.stringify(activeArticle))
     
-    
+    if (commentsView && activeArticle != null && activeArticle != undefined) {
+      console.log('Attempting to render details!')
+      return (
+        <>
+          <PacmanLoader css={emo} size={100} color={'#ff6600'} speedMultiplier={1} loading={isLoading} />
+          <Header />
+          <Comments key={activeArticle.objectID} title={activeArticle.title} url={activeArticle.url} points={activeArticle.points} author={activeArticle.author} time={activeArticle.created_at} comments={activeArticle.children}></Comments>
+          <Footer onChange={(e) => setSearch(e.target.value)} onSubmit={handleSubmit} /> 
+        </>
+      )
+    }
+      console.log('Rendering regular news or search results!')
   return (
     <>
       <PacmanLoader css={emo} size={100} color={'#ff6600'} speedMultiplier={1} loading={isLoading} />
@@ -96,7 +137,7 @@ axios({
                     <span className='time'>{moment(story.created_at).fromNow()}</span>
                     &nbsp;|
                     <span>&nbsp;<span className='hide'>hide</span> |&nbsp;</span>
-                    <a href={`https://hn.algolia.com/api/v1/items/${story.objectID}`} className='comments'>{story.num_comments} comments</a>
+                    <a onClick={(e) => handleSetArticle(story)} href='#' className='comments'>{story.num_comments} comments</a>
                 </div>
             </div>           
         </div>

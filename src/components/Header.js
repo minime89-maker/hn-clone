@@ -9,7 +9,7 @@ function Header() {
                 <a className='logo' href=""><img src={Logo} /></a>
         <div className='left-header'>
         <span>
-            <a className='header-title' href="#">Hacker News</a>
+            <a className='header-title' href="index.html">Hacker News</a>
         </span>
           <span>new</span>
           <span>past</span>

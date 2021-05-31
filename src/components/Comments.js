@@ -6,9 +6,9 @@ function Comments({ key, title, url, points, author, time, comments }) {
         <div className='news-container'>
             <div className='news-wrapper' key={key}>
                 <div className='news-title'>
-                    <a href={title}>{title}</a>s
+                    <a href={title}>{title}</a>
                     <span>
-                        <a className='news-title-url' href={url}>{url}</a>
+                        <a className='news-title-url' href={url}>({url})</a>
                     </span>
                 </div>
                 <div className='news-info'>
@@ -19,7 +19,7 @@ function Comments({ key, title, url, points, author, time, comments }) {
                     <span className='time'>{moment(time).fromNow()} |</span>
                     <span> hide |</span>
                     &nbsp;
-                    <span className='comments-button' href='#'>comments</span>
+                    <span className='comments-button' href='#'>{comments.length} comments</span>
                 </div>
             </div>  
             <div className='comments-container'>

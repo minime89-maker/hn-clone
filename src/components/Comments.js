@@ -26,7 +26,7 @@ function Comments({ key, title, url, points, author, time, comments }) {
             {comments && comments.map((comment) => {
                 return(
                     <> 
-                        { <div className='comment-item'>
+                        { <div className='comment-item' key={comment.id}>
                         <span className='author'>{comment.author}</span>
                         &nbsp;
                         <span className='time'>{moment(comment.created_at).fromNow()}</span>

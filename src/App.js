@@ -45,16 +45,18 @@ axios({
 
     const handleSubmit = (e) => {
       e.preventDefault()
+      e.target.reset()
       console.log(e)
       console.log(search)
       setSearch(search)
+      setSearch('')
     }
 
     useEffect(() => {
       const refresh = setInterval(() => {
         setLoading(false)
         axios
-        .get(`http://hn.algolia.com/api/v1/search_by_date?query=${search}&tags=story&hitsPerPage=10`)
+        .get(`http://hn.algolia.com/api/v1/search_by_date?query=${search}&tags=front_page&hitsPerPage=50`)
         .then((res) => {
           console.log(res.data.hits)
           setLoading(false)
@@ -65,7 +67,7 @@ axios({
          alert('Upsss I did again')
          setLoading(true)
         })
-      }, 50000);
+      }, 5000);
       return () => clearInterval(refresh);
     }, [search])
 
@@ -94,7 +96,7 @@ axios({
                     <span className='time'>{moment(story.created_at).fromNow()}</span>
                     &nbsp;|
                     <span>&nbsp;<span className='hide'>hide</span> |&nbsp;</span>
-                    <span className='comments'>{story.num_comments} comments</span>
+                    <a href={`https://hn.algolia.com/api/v1/items/${story.objectID}`} className='comments'>{story.num_comments} comments</a>
                 </div>
             </div>           
         </div>

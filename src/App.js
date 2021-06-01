@@ -22,14 +22,14 @@ transform: translate (50%, -50%);
 function App() {
 
   const [news, setNews] = useState()
-  const [isLoading, setLoading] = useState(false)
+  const [isLoading, setLoading] = useState(true)
   const [search, setSearch] = useState('')
   const [commentsView, setCommentsView] = useState(false)
   const [activeArticle, setArticle] = useState()
-
   const [offSet, setOffSet] = useState(0)
   const [perPage] = useState(10)
   const [pageCount, setPageCount] = useState(0)
+  const [isError, setIsError] = useState(false)
 
 
 /* const searchTopic= (topic) => {
@@ -56,11 +56,14 @@ axios({
       e.target.reset()
       if(search.length  === 0 || search !== news){
         alert('No searching ... !!!')
+      } else if (search === news){
+        setNews(search)
       }
     }
 
     const handleSetArticle = (story) => {
-      setLoading(false)
+      setLoading(true)
+      setIsError(false)
       console.log('selected story:' + story + 'caling API to get data')
       const storyID = story.objectID
       //https://hn.algolia.com/api/v1/items/${storyID}
@@ -81,52 +84,60 @@ axios({
        setCommentsView(false)
        setArticle()
        setLoading(true)
+       setIsError(true)
       })
     }
 
 
    useEffect(() => {
-    setLoading(true)
-    axios
-    .get(`http://hn.algolia.com/api/v1/search?query=${search}&tags=story&hitsPerPage=100`)
-    .then((res) => {
-      setLoading(false)
-      console.log(res.data.hits)
-      const data = res.data.hits
-      const slice = data.slice(offSet, offSet + perPage)
-      const result = slice.map((story) => {
-        return(
-             <div className='news-wrapper' key={story.objectID}>
-                 <div className='news-title'>
-                     <a href={story.url}>{story.title}</a>
-                     <div className='news-title-url'>
-                       <a  rel='noreferrer noopener' target='_blank' href={story.url}>{!story.url ? '(no domain)' : (story.url)}</a>
-                     </div>
-                 </div>
-                 <div className='news-info'>
-                     <span className='points'>{story.points} </span>
-                     points
-                     by&nbsp;
-                     <span className='author'>{story.author}</span>
-                     &nbsp;
-                     <span className='time'>{moment(story.created_at).fromNow()}</span>&nbsp;|&nbsp;
-                     <span><span className='hide'>hide</span>&nbsp;|</span>
-                     &nbsp;
-                     <span><span className='past'>past</span>&nbsp;|</span>
-                     &nbsp;
-                     <a onClick={(e) => handleSetArticle(story)} href='#' className='comments'>{story.num_comments === 0 ? 'discuss' : `${story.num_comments} comments`}</a>
-                 </div>
-             </div>    
-        )
-      })
-      setNews(result)
-      setPageCount(Math.ceil(data.length / perPage)) 
-    })
-    .catch((err) => {
+     const getNews = () => {
       setLoading(true)
-     console.log(`Upss ... ${err}`)
-     alert('Upsss I did again')
-    })
+      setIsError(false)
+      axios
+      .get(`http://hn.algolia.com/api/v1/search?query=${search}&tags=story&hitsPerPage=100`)
+      .then((res) => {
+        setLoading(false)
+        console.log(res.data.hits)
+        const data = res.data.hits
+        const slice = data.slice(offSet, offSet + perPage)
+        const result = slice.map((story) => {
+          return(
+               <div className='news-wrapper' key={story.objectID}>
+                   <div className='news-title'>
+                       <a href={story.url}>{story.title}</a>
+                       <div className='news-title-url'>
+                         <a  rel='noreferrer noopener' target='_blank' href={story.url}>{!story.url ? '(no domain)' : (story.url)}</a>
+                       </div>
+                   </div>
+                   <div className='news-info'>
+                       <span className='points'>{story.points} </span>
+                       points
+                       by&nbsp;
+                       <span className='author'>{story.author}</span>
+                       &nbsp;
+                       <span className='time'>{moment(story.created_at).fromNow()}</span>&nbsp;|&nbsp;
+                       <span><span className='hide'>hide</span>&nbsp;|</span>
+                       &nbsp;
+                       <span><span className='past'>past</span>&nbsp;|</span>
+                       &nbsp;
+                       <a onClick={(e) => handleSetArticle(story)} href='#' className='comments'>{story.num_comments === 0 ? 'discuss' : `${story.num_comments} comments`}</a>
+                   </div>
+               </div>    
+          )
+        })
+        setNews(result)
+        setPageCount(Math.ceil(data.length / perPage)) 
+      })
+      .catch((err) => {
+        setLoading(false)
+        setIsError(true)
+       console.log(`Upss ... ${err}`)
+       alert('Upsss I did again')
+      })
+     }
+      getNews()
+      const interval = setInterval(() => getNews(), 10000)
+      return () => clearInterval(interval)
    }, [search, offSet])
     
 
@@ -166,7 +177,9 @@ axios({
     <>
      <Header />
      <div className='news-container' >
-     {!news ? <PacmanLoader css={emo} size={80} color={'#ff6600'} speedMultiplier={1} loading={isLoading} /> : news}
+     {isLoading && <PacmanLoader css={emo} size={80} color={'#ff6600'} speedMultiplier={1} loading={isLoading} />}
+     {isError && alert('ERRORRRRR')}
+     {news && news}
      <ReactPaginate
                     previousLabel="&larr;"
                     nextLabel="&rarr;"

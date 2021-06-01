@@ -12,7 +12,7 @@ import ReactPaginate from 'react-paginate';
 
 const emo = css`
 position: absolute;
-top: 40%;
+top: 50%;
 right: 50%;
 transform: translate (50%, -50%);
 `
@@ -54,15 +54,14 @@ axios({
     const handleSubmit = (e) => {
       e.preventDefault()
       e.target.reset()
-      if(!search) return
-      setSearch(search)
-      setSearch('')
+      if(search.length  === 0 || search !== news){
+        alert('No searching ... !!!')
+      }
     }
 
     const handleSetArticle = (story) => {
-      setLoading(true)
+      setLoading(false)
       console.log('selected story:' + story + 'caling API to get data')
-      
       const storyID = story.objectID
       //https://hn.algolia.com/api/v1/items/${storyID}
       console.log('article selected='+storyID+'\ngetting data')
@@ -77,73 +76,75 @@ axios({
         setCommentsView(true)
       })
       .catch((err) => {
-        setLoading(true)
        console.log(`Error! ${err}`)
        alert('Error executing comments getter request!')
        setCommentsView(false)
        setArticle()
-      })
-
-    }
-
-
-    const getData = () => {
-      setLoading(true)
-      axios
-      .get(`http://hn.algolia.com/api/v1/search_by_date?query=${search}&tags=front_page&hitsPerPage=50`)
-      .then((res) => {
-        console.log(res.data.hits)
-
-        setLoading(false)
-        const data = res.data.hits
-        const slice = data.slice(offSet, offSet + perPage)
-        const result = slice.map((story) => {
-          return(
-               <div className='news-wrapper' key={story.objectID}>
-                   <div className='news-title'>
-                       <a href={story.url}>{story.title}</a>
-                       <span className='news-title-url'>
-                         <a  rel='noreferrer noopener' target='_blank' href={story.url}>({story.url})</a>
-                       </span>
-                   </div>
-                   <div className='news-info'>
-                       <span className='points'>{story.points} </span>
-                       points&nbsp;
-                       by&nbsp;
-                       <span className='author'>{story.author}</span>
-                       &nbsp;
-                       <span className='time'>{moment(story.created_at).fromNow()}</span>
-                       &nbsp;|
-                       <span>&nbsp;<span className='hide'>hide</span> |&nbsp;</span>
-                       <a onClick={(e) => handleSetArticle(story)} href='#' className='comments'>{story.num_comments} comments</a>
-                   </div>
-               </div>      
-         
-          )
-        })
-        setNews(result)
-        setPageCount(Math.ceil(data.length / perPage)) 
-      })
-      .catch((err) => {
-       console.log(`Upss ... ${err}`)
-       alert('Upsss I did again')
        setLoading(true)
       })
-
     }
+
+
+   useEffect(() => {
+    setLoading(true)
+    axios
+    .get(`http://hn.algolia.com/api/v1/search?query=${search}&tags=story&hitsPerPage=100`)
+    .then((res) => {
+      setLoading(false)
+      console.log(res.data.hits)
+      const data = res.data.hits
+      const slice = data.slice(offSet, offSet + perPage)
+      const result = slice.map((story) => {
+        return(
+             <div className='news-wrapper' key={story.objectID}>
+                 <div className='news-title'>
+                     <a href={story.url}>{story.title}</a>
+                     <div className='news-title-url'>
+                       <a  rel='noreferrer noopener' target='_blank' href={story.url}>{!story.url ? '(no domain)' : (story.url)}</a>
+                     </div>
+                 </div>
+                 <div className='news-info'>
+                     <span className='points'>{story.points} </span>
+                     points
+                     by&nbsp;
+                     <span className='author'>{story.author}</span>
+                     &nbsp;
+                     <span className='time'>{moment(story.created_at).fromNow()}</span>&nbsp;|&nbsp;
+                     <span><span className='hide'>hide</span>&nbsp;|</span>
+                     &nbsp;
+                     <span><span className='past'>past</span>&nbsp;|</span>
+                     &nbsp;
+                     <a onClick={(e) => handleSetArticle(story)} href='#' className='comments'>{story.num_comments === 0 ? 'discuss' : `${story.num_comments} comments`}</a>
+                 </div>
+             </div>    
+        )
+      })
+      setNews(result)
+      setPageCount(Math.ceil(data.length / perPage)) 
+    })
+    .catch((err) => {
+      setLoading(true)
+     console.log(`Upss ... ${err}`)
+     alert('Upsss I did again')
+    })
+   }, [search, offSet])
+    
+
+    
 
     const perClick = (e) => {
       const selectedPage = e.selected
       setOffSet(selectedPage + 1)
+      window.scrollTo(0, 0)
     }
 
-    useEffect(() => {
-      // const refresh = setInterval(() => {
-      //   getData()
-      // }, 500000);
-      // return () => clearInterval(refresh);
-      getData()
-    }, [search, offSet])
+    // useEffect(() => {
+    //   setLoading(true)
+    //   const refresh = setInterval(() => {
+    //     getData()
+    //   }, 5000);
+    //   return () => clearInterval(refresh);
+    // }, [search, offSet])
 
 
     console.log('commentsView status ='+commentsView)
@@ -153,7 +154,6 @@ axios({
       console.log('Attempting to render details!')
       return (
         <>
-      
         <Header />
         <PacmanLoader css={emo} size={100} color={'#ff6600'} speedMultiplier={1} loading={isLoading} />
           <Comments key={activeArticle.objectID} title={activeArticle.title} url={activeArticle.url} points={activeArticle.points} author={activeArticle.author} time={activeArticle.created_at} comments={activeArticle.children}></Comments>
@@ -164,13 +164,12 @@ axios({
       console.log('Rendering regular news or search results!')
   return (
     <>
-  
      <Header />
      <div className='news-container' >
-     {!news ? <PacmanLoader css={emo} size={100} color={'#ff6600'} speedMultiplier={1} loading={isLoading} /> : news}
+     {!news ? <PacmanLoader css={emo} size={80} color={'#ff6600'} speedMultiplier={1} loading={isLoading} /> : news}
      <ReactPaginate
-                    previousLabel={"<"}
-                    nextLabel={">"}
+                    previousLabel="&larr;"
+                    nextLabel="&rarr;"
                     breakLabel={"..."}
                     breakClassName={"break-me"}
                     pageCount={pageCount}

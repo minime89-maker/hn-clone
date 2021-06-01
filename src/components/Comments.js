@@ -7,9 +7,9 @@ function Comments({ key, title, url, points, author, time, comments }) {
             <div className='news-wrapper' key={key}>
                 <div className='news-title'>
                     <a href={title}>{title}</a>
-                    <span>
+                    <div className='news-title-url'>
                         <a className='news-title-url' href={url}>({url})</a>
-                    </span>
+                    </div>
                 </div>
                 <div className='news-info'>
                     <span className='points'>{points} points |</span>
@@ -22,14 +22,20 @@ function Comments({ key, title, url, points, author, time, comments }) {
                     <span className='comments-button' href='#'>{comments.length} comments</span>
                 </div>
             </div>  
+            <div className='text-area'>
+                <textarea name="" id="" cols="45" rows="10"></textarea>
+                <button type='button' className='text-area-btn'>add comment</button>
+            </div>
             <div className='comments-container'>
-            {comments && comments.map((comment) => {
+            {comments && comments.map((comment,) => {
                 return(
                     <> 
                         { <div className='comment-item' key={comment.id}>
-                        <span className='author'>{comment.author}</span>
+                        <span className='comment-author'>{comment.author}</span>
                         &nbsp;
-                        <span className='time'>{moment(comment.created_at).fromNow()}</span>
+                        <span className='comment-time'>{moment(comment.created_at).fromNow()}</span>
+                        &nbsp;
+                        <span className='comment-time'>[-]</span>
                         <p className='comment-text'>{comment.text}</p>
                         </div> }
                     </>

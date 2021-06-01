@@ -6,21 +6,20 @@ function Footer({ onChange, onSubmit, search }) {
     return (
         <div className='footer-container'>
             <div className='footer-links'>
-                <span>
-                    <a href='https://news.ycombinator.com/newsguidelines.html'>Guidelines</a>
-                    <a href='https://news.ycombinator.com/newsfaq.html'>FAQ</a>
-                    <a href='https://news.ycombinator.com/lists'>Lists</a>
-                    <a href='https://github.com/HackerNews/API'>API</a>
-                    <a href='https://news.ycombinator.com/security.html'>Security</a>
-                    <a href='https://www.ycombinator.com/legal/'>Legal</a>
-                    <a href='https://www.ycombinator.com/apply/'>Apply to YC</a>
-                    <a href='mailto:hn@ycombinator.de'>Contact</a>
-                </span>
+                    <a href='https://news.ycombinator.com/newsguidelines.html' rel='noreferrer noopener' target='_blank' >Guidelines</a>
+                    <a href='https://news.ycombinator.com/newsfaq.html' rel='noreferrer noopener' target='_blank' >FAQ</a>
+                    <a href='https://news.ycombinator.com/lists' rel='noreferrer noopener' target='_blank' >Lists</a>
+                    <a href='https://github.com/HackerNews/API' rel='noreferrer noopener' target='_blank' >API</a>
+                    <a href='https://news.ycombinator.com/security.html' rel='noreferrer noopener' target='_blank' >Security</a>
+                    <a href='https://www.ycombinator.com/legal/' rel='noreferrer noopener' target='_blank' >Legal</a>
+                    <a href='https://www.ycombinator.com/apply/' rel='noreferrer noopener' target='_blank' >Apply to YC</a>
+                    <a href='mailto:hn@ycombinator.de' rel='noreferrer noopener' target='_blank' >Contact</a>
             </div>
             <div className='footer-search'>
+            <label>Search: </label>
                 <form onSubmit={onSubmit}>
-                    <label>Search: </label>
                     <input type="text" onChange={onChange} value={search}></input>
+                    {/* <button onClick={(e) => console.log(e)}>submit</button> */}
                 </form>
             </div>
         </div>

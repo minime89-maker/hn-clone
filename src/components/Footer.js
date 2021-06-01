@@ -20,6 +20,7 @@ function Footer({ onChange, onSubmit }) {
                 <form method='get' onSubmit={onSubmit}>
                     <input type="text" onChange={onChange}></input>
                     {/* <button onClick={(e) => console.log(e)}>submit</button> */}
+                    <button type='submit' className='search-btn'>Hack</button>
                 </form>
             </div>
         </div>

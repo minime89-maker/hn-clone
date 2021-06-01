@@ -9,14 +9,12 @@ import Comments from './components/Comments.js';
 import ReactPaginate from 'react-paginate';
 
 
-
 const emo = css`
 position: absolute;
 top: 50%;
 right: 50%;
 transform: translate (50%, -50%);
 `
-
 
 
 function App() {
@@ -31,25 +29,6 @@ function App() {
   const [pageCount, setPageCount] = useState(0)
   const [isError, setIsError] = useState(false)
 
-
-/* const searchTopic= (topic) => {
-  axios({
-  method: 'get',
-  url: `http://hn.algolia.com/api/v1/search?query=${topic}&tags=story`
-})  
-  .then(function (response) { 
-    console.log(`for topic: ${topic}\n`+ JSON.stringify(response))
-  })
-} 
-searchTopic('react');
-
-axios({
-    method: 'get',
-    url: 'http://hn.algolia.com/api/v1/search?tags=front_page'
-  })
-    .then(function (response) {
-      console.log(response)
-    }); */
 
     const handleSubmit = (e) => {
       e.preventDefault()
@@ -88,18 +67,18 @@ axios({
       })
     }
 
-
    useEffect(() => {
      const getNews = () => {
       setLoading(true)
       setIsError(false)
       axios
-      .get(`http://hn.algolia.com/api/v1/search?query=${search}&tags=story&hitsPerPage=100`)
+      .get(`http://hn.algolia.com/api/v1/search?query=${search}&tags=story&hitsPerPage=200`)
       .then((res) => {
         setLoading(false)
         console.log(res.data.hits)
         const data = res.data.hits
         const slice = data.slice(offSet, offSet + perPage)
+        {slice.length === 0 && alert('No matching results !!!')}
         const result = slice.map((story) => {
           return(
                <div className='news-wrapper' key={story.objectID}>
@@ -138,23 +117,12 @@ axios({
       const interval = setInterval(() => getNews(), 500000)
       return () => clearInterval(interval)
    }, [search, offSet])
-    
-
-    
 
     const perClick = (e) => {
       const selectedPage = e.selected
       setOffSet(selectedPage + 1)
       window.scrollTo(0, 0)
     }
-
-    // useEffect(() => {
-    //   setLoading(true)
-    //   const refresh = setInterval(() => {
-    //     getData()
-    //   }, 5000);
-    //   return () => clearInterval(refresh);
-    // }, [search, offSet])
 
 
     console.log('commentsView status ='+commentsView)

@@ -132,7 +132,6 @@ axios({
         setLoading(false)
         setIsError(true)
        console.log(`Upss ... ${err}`)
-       alert('Upsss I did again')
       })
      }
       getNews()

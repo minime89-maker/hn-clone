@@ -220,16 +220,7 @@ body{
 .search-btn{
   display: none;
 }
-.error{
-  display: none;
-}
-.active-error{
-  display: block;
-  position: relative;
-  width: 400px;
-  height: 400px;
-  background: black;
-}
+
 
 @media (min-width: 570px) and (max-width: 750px){
  .footer-search label{

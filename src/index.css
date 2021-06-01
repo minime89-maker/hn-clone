@@ -5,110 +5,174 @@
 }
 body{
   width: 100vw;
-  height: fit-content;
-  font-family: Verdana, Geneva, Tahoma, sans-serif;
-  line-height: 19px;
+  height: 100vh;
+  font-family: Verdana, Geneva, sans-serif;
 }
 .header-container{
   display: flex;
   align-items: center;
   justify-content: space-between;
   line-height: 16px;
+  min-width: 0;
+  width: 100%;
+  padding:4px;
   color: #000;
   background: #ff6600;
 }
-.left-header span{
-  padding: 0 10px;
+.title-wrapper a{
+  padding: 0 6px;
   font-size: 12px;
-  color: #000;
+  color: #222222;
   border-right: 1px solid black;
+  border-width: thin;
+  text-decoration: none;
+}
+.title-wrapper a:focus{
+  color: #fff;
 }
 .left-header span:last-child{
   border-right: none;
 }
 .right-header{
-  padding: 0 10px;
+  padding: 0 8px;
+  font-size: 12px;
 }
 .footer-container{
-  position:fixed;
+  position:relative;
   bottom: 0;
   left: 0;
   right: 0;
   width: 100%;
   margin: 0 auto;
   background: #f6f6ef;
-  border-top: 3px solid #ff6600;
+  color: #828282;
+  border-top: 2px solid #ff6600;
+  
 }
-.footer-container *{
-  padding: 0 10px;
-}
-.footer-links, .footer-search{
+.footer-search{
   text-align: center;
-  padding: 6px;
+  padding: 8px 0 12px 0;
+}
+.footer-search label{
+  font-size: 14px;
 }
 .footer-search input{
   font-size: 18px;
   outline: none;
+  width: 90%;
+}
+
+.footer-links {
+    text-align: center;
+    margin-top: 10px;
 }
 .footer-links a{
   text-decoration: none;
   color: #828282;
+  font-size: 11px;
+  border-right: 1px solid #828282;
+  padding: 0 4px;
+}
+.footer-links a:last-child{
+  border: none;
+  color: #000;
 }
 .news-container{
   background: #f6f6ef;
-  padding-bottom: 100px;
-  min-height: 100vh;
-  max-height: fit-content;
+  line-height: 18px;
+  padding:0 10px 10px 10px;
+  min-height: 95vh;
+  position: relative;
 }
 .news-title a{
   text-decoration: none;
-  padding: 0 10px;
+  padding-right: 4px;
   color: #000;
-  font-size: 15px;
+  font-size: 14.66px;
+  line-height: 19px;
+  overflow: hidden;
 }
-.news-title-url{
-  color: #828282;
-  font-size: 11px;
-}
+
 .news-title-url a{
   color: #828282;
   font-size: 11px;
+  word-break: break-word;
 }
 .news-title-url:hover{
   text-decoration: underline;
 }
 .news-info{
   color: #828282;
-  padding: 4px 10px;
   font-size: 12px;
 }
 .news-wrapper{
-  padding: 10px 0;
+  padding: 5px 0 5px 0;
+}
+.news-wrapper:first-child{
+  padding-top: 10px;
+}
+
+.comments{
+  text-decoration: none;
+  color: #828282;
 }
 .comment-item{
   padding: 10px 0;
 }
+
 .comments-button:hover {
   text-decoration: underline;
   cursor: pointer;
 }
-.comments:hover, .author:hover, .time:hover, .hide:hover{
+.comments:hover, .author:hover, .time:hover, .hide:hover, .past:hover{
   text-decoration: underline;
   cursor: pointer;
 }
 .comment-text{
-  font-size: 10px;
+  font-size: 13.33px;
+  color: #000;
+  word-break: break-word;
+}
+.comment-author, .comment-time{
+  font-size: 11px;
+  color: #828282;
+}
+.text-area-btn{
+  margin-top: 10px;
+  margin-bottom: 40px;
+  font-family: monospace;
+  background: #efefef;
+  padding: 2px 6px;
+  border: 1px solid black;
+  border-radius: 2px;
+}
+.text-area-btn:hover{
+  background: #dfdfdf;
 }
 .logo img{
-  border: 1px solid white;
+  border: 1.5px solid #fff;
+  width: 20px;
+  height: 20px;
 }
-.pagination {
-  margin: 15px auto;
+.left-header {
   display: flex;
   align-items: center;
-    justify-content: center;
+  justify-content: center;
+  padding-top: 2px;
+}
+.header-title{
+  padding-left: 6px;
+  font-size: 16px;
+  color: #000;
+  text-decoration: none;
+  font-weight: 700;
+}
+.pagination {
+  padding: 20px 0 10px 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   list-style: none;
-  outline: none;
 }
 .pagination > .active > a{
   background-color: #ff6600 ;
@@ -117,7 +181,7 @@ body{
 }
 .pagination > li > a{
   border: 1px solid #000 ;
-  padding: 5px 10px;
+  padding: 2px 6px;
   outline: none;
   cursor: pointer;
 }
@@ -127,11 +191,22 @@ body{
   outline: none ;
 }
 .pagination > li > a, .pagination > li > span{
-  color: #000
+  color: #828282;
+  font-size: 14px;
+  margin: 2px;
 }
 .pagination > li:first-child > a, .pagination > li:first-child > span, .pagination > li:last-child > a, .pagination > li:last-child > span{
   border-radius: unset
 }
 .news-active{
   display: none;
+}
+.title-wrapper{
+  cursor: pointer;
+}
+.links-wrapper{
+  padding-left: 4px;
+}
+.error{
+  font-size: 400px;
 }

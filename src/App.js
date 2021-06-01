@@ -28,7 +28,7 @@ function App() {
   const [activeArticle, setArticle] = useState()
 
   const [offSet, setOffSet] = useState(0)
-  const [perPage] = useState(5)
+  const [perPage] = useState(10)
   const [pageCount, setPageCount] = useState(0)
 
 
@@ -60,6 +60,7 @@ axios({
     }
 
     const handleSetArticle = (story) => {
+      setLoading(true)
       console.log('selected story:' + story + 'caling API to get data')
       
       const storyID = story.objectID
@@ -68,6 +69,7 @@ axios({
       axios
       .get(`https://hn.algolia.com/api/v1/items/${storyID}?tags=comment`)
       .then((res) => {
+        setLoading(false)
         console.log('res=' + JSON.stringify(res))
         console.log('res data='+JSON.stringify(res.data))
         console.log('res data hits='+JSON.stringify(res.data.hits))
@@ -75,6 +77,7 @@ axios({
         setCommentsView(true)
       })
       .catch((err) => {
+        setLoading(true)
        console.log(`Error! ${err}`)
        alert('Error executing comments getter request!')
        setCommentsView(false)
@@ -90,6 +93,7 @@ axios({
       .get(`http://hn.algolia.com/api/v1/search_by_date?query=${search}&tags=front_page&hitsPerPage=50`)
       .then((res) => {
         console.log(res.data.hits)
+
         setLoading(false)
         const data = res.data.hits
         const slice = data.slice(offSet, offSet + perPage)
@@ -116,8 +120,6 @@ axios({
                </div>      
          
           )
-
- 
         })
         setNews(result)
         setPageCount(Math.ceil(data.length / perPage)) 
@@ -151,8 +153,9 @@ axios({
       console.log('Attempting to render details!')
       return (
         <>
-          <PacmanLoader css={emo} size={100} color={'#ff6600'} speedMultiplier={1} loading={isLoading} />
-          <Header />
+      
+        <Header />
+        <PacmanLoader css={emo} size={100} color={'#ff6600'} speedMultiplier={1} loading={isLoading} />
           <Comments key={activeArticle.objectID} title={activeArticle.title} url={activeArticle.url} points={activeArticle.points} author={activeArticle.author} time={activeArticle.created_at} comments={activeArticle.children}></Comments>
           <Footer onChange={(e) => setSearch(e.target.value)} onSubmit={handleSubmit} /> 
         </>
@@ -161,13 +164,13 @@ axios({
       console.log('Rendering regular news or search results!')
   return (
     <>
-      <PacmanLoader css={emo} size={100} color={'#ff6600'} speedMultiplier={1} loading={isLoading} />
+  
      <Header />
      <div className='news-container' >
-     {news}
+     {!news ? <PacmanLoader css={emo} size={100} color={'#ff6600'} speedMultiplier={1} loading={isLoading} /> : news}
      <ReactPaginate
-                    previousLabel={"prev"}
-                    nextLabel={"next"}
+                    previousLabel={"<"}
+                    nextLabel={">"}
                     breakLabel={"..."}
                     breakClassName={"break-me"}
                     pageCount={pageCount}
@@ -178,7 +181,6 @@ axios({
                     subContainerClassName={"pages pagination"}
                     activeClassName={"active"}/>    
      </div>    
-     
       <Footer value={search} onChange={(e) => setSearch(e.target.value)} onSubmit={handleSubmit} /> 
     </>
   );

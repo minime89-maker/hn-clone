@@ -72,7 +72,7 @@ function App() {
       setLoading(true)
       setIsError(false)
       axios
-      .get(`https://hn.algolia.com/api/v1/search?query=${search}&tags=story&hitsPerPage=200`)
+      .get(`https://hn.algolia.com/api/v1/search_by_date?query=${search}&tags=story&hitsPerPage=200`)
       .then((res) => {
         setLoading(false)
         console.log(res.data.hits)

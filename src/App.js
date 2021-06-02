@@ -9,14 +9,12 @@ import Comments from './components/Comments.js';
 import ReactPaginate from 'react-paginate';
 
 
-
 const emo = css`
 position: absolute;
 top: 50%;
 right: 50%;
 transform: translate (50%, -50%);
 `
-
 
 
 function App() {
@@ -27,37 +25,18 @@ function App() {
   const [commentsView, setCommentsView] = useState(false)
   const [activeArticle, setArticle] = useState()
   const [offSet, setOffSet] = useState(0)
-  const [perPage] = useState(10)
+  const [perPage] = useState(30)
   const [pageCount, setPageCount] = useState(0)
   const [isError, setIsError] = useState(false)
 
 
-/* const searchTopic= (topic) => {
-  axios({
-  method: 'get',
-  url: `http://hn.algolia.com/api/v1/search?query=${topic}&tags=story`
-})  
-  .then(function (response) { 
-    console.log(`for topic: ${topic}\n`+ JSON.stringify(response))
-  })
-} 
-searchTopic('react');
-
-axios({
-    method: 'get',
-    url: 'http://hn.algolia.com/api/v1/search?tags=front_page'
-  })
-    .then(function (response) {
-      console.log(response)
-    }); */
-
     const handleSubmit = (e) => {
       e.preventDefault()
       e.target.reset()
-      if(search.length  === 0 || search !== news){
-        alert('No searching ... !!!')
-      } else if (search === news){
-        setNews(search)
+   if (search.length === 0){
+          alert('Search for something !!!')
+      } else {
+        setSearch(search ? search : console.log('Happy Hacking'))
       }
     }
 
@@ -88,18 +67,18 @@ axios({
       })
     }
 
-
    useEffect(() => {
      const getNews = () => {
       setLoading(true)
       setIsError(false)
       axios
-      .get(`http://hn.algolia.com/api/v1/search?query=${search}&tags=story&hitsPerPage=100`)
+      .get(`http://hn.algolia.com/api/v1/search?query=${search}&tags=story&hitsPerPage=200`)
       .then((res) => {
         setLoading(false)
         console.log(res.data.hits)
         const data = res.data.hits
         const slice = data.slice(offSet, offSet + perPage)
+        {slice.length === 0 && alert('No matching results !!!')}
         const result = slice.map((story) => {
           return(
                <div className='news-wrapper' key={story.objectID}>
@@ -132,30 +111,18 @@ axios({
         setLoading(false)
         setIsError(true)
        console.log(`Upss ... ${err}`)
-       alert('Upsss I did again')
       })
      }
       getNews()
-      const interval = setInterval(() => getNews(), 10000)
+      const interval = setInterval(() => getNews(), 500000)
       return () => clearInterval(interval)
    }, [search, offSet])
-    
-
-    
 
     const perClick = (e) => {
       const selectedPage = e.selected
       setOffSet(selectedPage + 1)
       window.scrollTo(0, 0)
     }
-
-    // useEffect(() => {
-    //   setLoading(true)
-    //   const refresh = setInterval(() => {
-    //     getData()
-    //   }, 5000);
-    //   return () => clearInterval(refresh);
-    // }, [search, offSet])
 
 
     console.log('commentsView status ='+commentsView)
@@ -180,6 +147,7 @@ axios({
      {isLoading && <PacmanLoader css={emo} size={80} color={'#ff6600'} speedMultiplier={1} loading={isLoading} />}
      {isError && alert('ERRORRRRR')}
      {news && news}
+     {search && news}
      <ReactPaginate
                     previousLabel="&larr;"
                     nextLabel="&rarr;"
@@ -193,7 +161,7 @@ axios({
                     subContainerClassName={"pages pagination"}
                     activeClassName={"active"}/>    
      </div>    
-      <Footer value={search} onChange={(e) => setSearch(e.target.value)} onSubmit={handleSubmit} /> 
+      <Footer onChange={(e) => setSearch(e.target.value.trim())} onSubmit={handleSubmit} /> 
     </>
   );
 }

@@ -57,9 +57,10 @@ body{
   font-size: 14px;
 }
 .footer-search input{
-  font-size: 18px;
+  font-size: 13px;
   outline: none;
-  width: 90%;
+  width: 88%;
+  padding: 1px 2px;
 }
 
 .footer-links {
@@ -88,7 +89,7 @@ body{
   text-decoration: none;
   padding-right: 4px;
   color: #000;
-  font-size: 14.66px;
+  font-size: 13.66px;
   line-height: 19px;
   overflow: hidden;
 }
@@ -137,6 +138,12 @@ body{
   font-size: 11px;
   color: #828282;
 }
+.text-area{
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex-direction: column;
+}
 .text-area-btn{
   margin-top: 10px;
   margin-bottom: 40px;
@@ -162,7 +169,7 @@ body{
 }
 .header-title{
   padding-left: 6px;
-  font-size: 16px;
+  font-size: 14px;
   color: #000;
   text-decoration: none;
   font-weight: 700;
@@ -209,4 +216,48 @@ body{
 }
 .error{
   font-size: 400px;
+}
+.search-btn{
+  display: none;
+}
+
+
+@media (min-width: 570px) and (max-width: 750px){
+ .footer-search label{
+   float: left;
+   padding-right: 4px;
+   padding-top: 2px;
+ }
+}
+
+@media(min-width: 770px){
+  input[type='text']{
+    width: 170px;
+    margin-left: 4px;
+  }
+  .footer-search{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .links-wrapper{
+    display: flex;
+    align-items: center;
+  }
+  .header-container{
+    padding: 0;
+  }
+  .header-title{
+    padding-left: 0;
+  }
+  .search-btn{
+    display: inline-block;
+    margin-left: 4px;
+    padding: 1px 2px;
+    font-family: monospace;
+  }
+  #root{
+    width: 87%;
+    margin:  10px auto;
+  }
 }

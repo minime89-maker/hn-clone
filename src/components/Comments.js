@@ -22,10 +22,10 @@ function Comments({ key, title, url, points, author, time, comments }) {
                     <span className='comments-button' href='#'>{comments.length} comments</span>
                 </div>
             </div>  
-            <div className='text-area'>
+            {/* <div className='text-area'>
                 <textarea name="" id="" cols="45" rows="10"></textarea>
                 <button type='button' className='text-area-btn'>add comment</button>
-            </div>
+            </div> */}
             <div className='comments-container'>
             {comments && comments.map((comment,) => {
                 return(

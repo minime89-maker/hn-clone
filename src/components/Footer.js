@@ -1,6 +1,6 @@
 import React from 'react'
 
-function Footer({ onChange, onSubmit, search }) {
+function Footer({ onChange, onSubmit }) {
 
 
     return (
@@ -17,9 +17,10 @@ function Footer({ onChange, onSubmit, search }) {
             </div>
             <div className='footer-search'>
             <label>Search: </label>
-                <form onSubmit={onSubmit}>
-                    <input type="text" onChange={onChange} value={search}></input>
+                <form method='get' onSubmit={onSubmit}>
+                    <input type="text" onChange={onChange}></input>
                     {/* <button onClick={(e) => console.log(e)}>submit</button> */}
+                    <button type='submit' className='search-btn'>Hack</button>
                 </form>
             </div>
         </div>

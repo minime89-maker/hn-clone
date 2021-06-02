@@ -1,5 +1,7 @@
 import moment from 'moment'
 import React from 'react'
+import parse from 'html-react-parser';
+
 
 function Comments({ key, title, url, points, author, time, comments }) {
     return (
@@ -36,7 +38,7 @@ function Comments({ key, title, url, points, author, time, comments }) {
                         <span className='comment-time'>{moment(comment.created_at).fromNow()}</span>
                         &nbsp;
                         <span className='comment-time'>[-]</span>
-                        <p className='comment-text'>{comment.text}</p>
+                        <p className='comment-text'>{parse(comment.text)}</p>
                         </div> }
                     </>
                 )})}

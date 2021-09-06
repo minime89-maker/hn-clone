@@ -1,3 +1,5 @@
+<img src="https://user-images.githubusercontent.com/77694499/132264027-a6ed6168-8d56-4ed3-a87d-dbf23a2b051a.png" />
+
 # 📰 Hacker News clone 
 
 WBS weekly Project of cloning Hacker News website in React js :
